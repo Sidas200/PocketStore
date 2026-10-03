@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#1e3a8a">
+
+    <title>PocketStore</title>
+
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="manifest" href="./manifest.json">
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>PocketStore</h1>
+        <p>Tu catálogo disponible incluso sin conexión</p>
+    </header>
+
+    <main class="main">
+
+        <section class="status-container">
+            <span id="connection-status" class="status">
+                Verificando conexión...
+            </span>
+        </section>
+
+        <section>
+            <h2>Catálogo</h2>
+
+            <div id="loading" class="loading">
+                Cargando catálogo...
+            </div>
+
+            <div id="catalog" class="catalog">
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>
+            PocketStore - PWA con Vanilla JavaScript
+        </p>
+    </footer>
+
+    <script src="./app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+# PocketStore
+
+PocketStore es una aplicación web progresiva (PWA) desarrollada con HTML, CSS y JavaScript Vanilla.
+
+La aplicación consume información desde una API pública y utiliza un Service Worker junto con Cache API para almacenar los recursos necesarios, permitiendo utilizar la aplicación incluso cuando no existe conexión a Internet.
+
+---
+
+## Objetivo
+
+Crear una aplicación web de una sola página que permita mostrar un catálogo de información y que continúe funcionando sin conexión a Internet después de haber sido cargada al menos una vez.
+
+---
+
+## Tecnologías utilizadas
+
+- HTML5
+- CSS3
+- JavaScript Vanilla
+- Fetch API
+- Service Workers
+- Cache API
+- Web App Manifest
+- JSONPlaceholder
+
+---
+
+## API utilizada
+
+Para obtener la información dinámica se utilizó la API pública JSONPlaceholder.
+
+Endpoint utilizado:
+
+```text
+https://jsonplaceholder.typicode.com/users
+```
+
+---
+
+## Estructura del proyecto
+
+```text
+pocket-store/
+│
+├── index.html
+├── styles.css
+├── app.js
+├── sw.js
+├── manifest.json
+├── README.md
+│
+├── icons/
+│   ├── icon-192.png
+│   └── icon-512.png
+│
+└── images/
+    ├── 01-estructura-proyecto.png
+    ├── 02-manifest.png
+    ├── 03-app-shell.png
+    ├── 04-estilos.png
+    ├── 05-consumo-api.png
+    ├── 06-service-worker.png
+    ├── 07-service-worker-activo.png
+    ├── 08-cache-storage.png
+    ├── 09-app-online.png
+    └── 10-app-offline.png
+```
+
+---
+
+# Desarrollo del proyecto
+
+## Paso 1. Crear la estructura del proyecto
+
+Se creó una carpeta llamada `pocket-store` y dentro de ella se agregaron los archivos principales necesarios para desarrollar la aplicación.
+
+Los archivos utilizados son:
+
+- `index.html`
+- `styles.css`
+- `app.js`
+- `sw.js`
+- `manifest.json`
+- `README.md`
+
+También se crearon las carpetas `icons` e `images`.
+
+### Evidencia
+
+![alt text](./images/01-estructura-proyecto.png)
+
+---
+
+## Paso 2. Crear el archivo manifest.json
+
+Se creó manualmente el archivo `manifest.json`.
+
+Este archivo contiene la configuración necesaria para que la aplicación pueda comportarse como una Progressive Web App.
+
+Se configuraron los siguientes elementos:
+
+- Nombre de la aplicación.
+- Nombre corto.
+- URL inicial.
+- Modo de visualización `standalone`.
+- Color de fondo.
+- Color principal.
+- Icono de 192x192.
+- Icono de 512x512.
+
+### Evidencia
+
+![alt text](./images/02-manifest.png)
+
+---
+
+## Paso 3. Crear el App Shell
+
+Se desarrolló la estructura principal de la aplicación utilizando el archivo `index.html`.
+
+El App Shell contiene los elementos visuales principales que estarán disponibles incluso cuando la aplicación no tenga conexión a Internet.
+
+La estructura incluye:
+
+- Barra superior.
+- Nombre de la aplicación.
+- Estado de conexión.
+- Contenedor principal.
+- Catálogo.
+- Pie de página.
+
+### Evidencia
+
+![alt text](./images/03-app-shell.png)
+
+---
+
+## Paso 4. Crear los estilos de la aplicación
+
+Se creó el archivo `styles.css` para definir la apariencia visual de PocketStore.
+
+Se utilizaron estilos para:
+
+- Barra superior.
+- Contenedor principal.
+- Tarjetas del catálogo.
+- Estado de conexión.
+- Pie de página.
+- Diseño responsive.
+
+### Evidencia
+
+![alt text](./images/04-estilos.png)
+![alt text](./images/04-estilos-1.png)
+![alt text](./images/04-estilos-2.png)
+
+---
+
+## Paso 5. Consumir la API utilizando Fetch
+
+En el archivo `app.js` se implementó una petición utilizando `fetch()`.
+
+La aplicación obtiene información desde JSONPlaceholder.
+
+```javascript
+fetch("https://jsonplaceholder.typicode.com/users")
+```
+
+La respuesta obtenida es convertida a formato JSON y posteriormente se crean dinámicamente las tarjetas que aparecen dentro del catálogo.
+
+### Evidencia
+
+![alt text](./images/05-consumo-api.png)
+![alt text](./images/05-consumo-api-1.png)
+![alt text](./images/05-consumo-api-2.png)
+![alt text](./images/05-consumo-api-3.png)
+
+---
+
+## Paso 6. Crear el Service Worker
+
+Se creó el archivo `sw.js`.
+
+El Service Worker permite interceptar las peticiones realizadas por la aplicación y almacenar recursos utilizando Cache API.
+
+Se implementaron los principales eventos del ciclo de vida:
+
+```javascript
+install
+activate
+fetch
+```
+
+Durante el evento `install` se almacenan los archivos que forman el App Shell.
+
+Durante `activate` se eliminan versiones antiguas de la caché.
+
+Durante `fetch` se interceptan las peticiones para decidir si obtener la información desde Internet o desde la caché.
+
+### Evidencia
+
+![alt image](./images/06-service-worker.png)
+![alt image](./images/06-service-worker-1.png)
+![alt image](./images/06-service-worker-2.png)
+![alt image](./images/06-service-worker-3.png)
+![alt image](./images/06-service-worker-4.png)
+
+---
+
+## Paso 7. Registrar el Service Worker
+
+El Service Worker se registra desde el archivo `app.js`.
+
+Se verifica primero que el navegador tenga soporte para Service Workers.
+
+```javascript
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js");
+}
+```
+
+Después de ejecutar la aplicación se verificó desde las herramientas de desarrollo del navegador que el Service Worker estuviera correctamente registrado.
+
+Ruta utilizada en Chrome:
+
+```text
+DevTools
+→ Application
+→ Service Workers
+```
+
+### Evidencia
+
+![alt text](./images/07-service-worker-activo.png)
+
+---
+
+## Paso 8. Verificar Cache Storage
+
+Después de ejecutar la aplicación se verificó que los recursos estuvieran almacenados dentro de Cache Storage.
+
+Ruta utilizada:
+
+```text
+DevTools
+→ Application
+→ Cache Storage
+```
+
+Se generaron dos cachés principales:
+
+```text
+pocket-store-static-v1
+pocket-store-data-v1
+```
+
+La primera almacena los archivos principales de la aplicación.
+
+La segunda almacena la respuesta obtenida desde la API.
+
+### Evidencia
+
+![alt text](./images/08-cache-storage.png)
+![alt text](./images/08-cache-storage-1.png)
+
+---
+
+## Paso 9. Ejecutar la aplicación con conexión
+
+Se inició PocketStore utilizando un servidor local.
+
+La aplicación realizó la petición a JSONPlaceholder y mostró correctamente la información de los usuarios.
+
+### Evidencia
+
+![PocketStore funcionando online](./images/09-app-online.png)
+
+---
+
+## Paso 10. Probar el funcionamiento Offline
+
+Para comprobar que la aplicación funciona sin conexión se utilizaron las herramientas de desarrollo de Chrome.
+
+Se seleccionó:
+
+```text
+DevTools
+→ Network
+→ Offline
+```
+
+Posteriormente se recargó la aplicación.
+
+Aunque no existía conexión a Internet, PocketStore continuó mostrando:
+
+- El diseño de la aplicación.
+- Los estilos.
+- El catálogo.
+- Los datos obtenidos previamente desde la API.
+
+Esto es posible gracias al Service Worker y al almacenamiento mediante Cache API.
+
+### Evidencia
+
+![PocketStore funcionando Offline](./images/10-app-offline.png)
+
+---
+
+Si no hay archivos en la cache el programa nos indica que no se puede cargar el catologo de usuarios.
+
+### Evidencia
+
+![PocketStore funcionando Offline](./images/11-sin-cache.png)
+
+---
+
+# Estrategias de caché utilizadas
+
+## Cache First
+
+Para los archivos que forman el App Shell se utiliza la estrategia Cache First.
+
+El Service Worker busca primero los archivos dentro de la caché.
+
+```text
+Petición
+   ↓
+Service Worker
+   ↓
+Caché
+   ↓
+Si existe → devolver recurso
+   ↓
+Si no existe → solicitar a Internet
+```
+
+Esta estrategia permite que la interfaz de PocketStore pueda cargarse rápidamente.
+
+---
+
+## Network First
+
+Para la información obtenida desde la API se utiliza la estrategia Network First.
+
+```text
+Petición a API
+      ↓
+   Internet
+      ↓
+Si funciona → mostrar y guardar en caché
+      ↓
+Si falla
+      ↓
+Usar información almacenada en caché
+```
+
+Esto permite obtener datos actualizados cuando existe conexión y utilizar la última información disponible cuando no existe Internet.
+
+---
+
+# Resultado
+
+Como resultado se desarrolló una aplicación web progresiva capaz de consumir información desde una API externa y almacenar tanto los recursos principales como los datos obtenidos.
+
+Después de realizar una primera carga con conexión a Internet, PocketStore puede seguir funcionando sin conexión utilizando la información almacenada en caché.
+
+---
+
+## Autor
+
+**Nombre:** Pedro Arturo Sidas Rodriguez 
+**Proyecto:** PocketStore  
+**Modalidad:** Desarrollo individual  
+**Universidad Tecnológica de Chihuahua**
