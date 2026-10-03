@@ -203,7 +203,6 @@ Durante `fetch` se interceptan las peticiones para decidir si obtener la informa
 ![alt image](./images/06-service-worker-1.png)
 ![alt image](./images/06-service-worker-2.png)
 ![alt image](./images/06-service-worker-3.png)
-![alt image](./images/06-service-worker-4.png)
 
 ---
 
